@@ -24,20 +24,7 @@ public class Parser {
             this.locator = locator;
         }
 
-        public void startElement(String namespaceURI, String localName,
-                String rawName, Attributes atts) throws SAXException {
-            String k;
-            
-            if (insidePerson = (rawName.equals("author") || rawName
-                    .equals("editor"))) {
-                Value = "";
-                return;
-            }
-            if ((atts.getLength()>0) && ((k = atts.getValue("key"))!=null)) {
-                key = k;
-                recordTag = rawName;   
-            }
-        }
+
 
         public void endElement(String namespaceURI, String localName,
                 String rawName) throws SAXException {
