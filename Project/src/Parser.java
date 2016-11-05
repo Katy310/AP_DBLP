@@ -10,21 +10,23 @@ import javax.xml.stream.events.XMLEvent;
 public class Parser{
 	
 	public String file = "/Users/Sagar/Desktop/dblp.xml";
-	public XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+	public XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();													//XML Factory
 	
 	public void parseOne(){
+		int i;
 		String publication = "";
 		try {
-			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));
-			
+			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));     // XML Event Reader
+			//for(i = 0; i < 5000; i++){
 			while(xmlEventReader.hasNext()){
 				if(xmlEventReader.hasNext()){
 					XMLEvent xmlEvent = xmlEventReader.nextEvent();
 					if(xmlEvent.isStartElement()){
 						StartElement startElement = xmlEvent.asStartElement();
-						String[] dblp = {"article","inproceedings","proceedings","book","incollection","phdthesis","mastersthesis","www","person","data"};
-						String[] attr = {"author","editor","title","booktitle","pages","year","address","journal","volume","number","month","url","ee","cdrom","cite","publisher","note","crossref","isbn","series","school","chapter","publnr"};
-						for(String ele:dblp){                                      // if first level
+						String[] level1 = {"article","inproceedings","proceedings","book","incollection","phdthesis","mastersthesis","www","person","data"};
+						String[] level2 = {"author","editor","title","booktitle","pages","year","address","journal","volume","number","month","url","ee","cdrom","cite","publisher","note","crossref","isbn","series","school","chapter","publnr"};
+						//String[] level3 = {"sub","sup","i","tt","ref"};
+						for(String ele:level1){                                      // if first level
 							//System.out.println(ele);
 							if(startElement.getName().getLocalPart().equals(ele)){
 								System.out.println("Publication : " + ele);
@@ -32,13 +34,20 @@ public class Parser{
 								break;
 							}
 						}
-						for(String el:attr){										// if second level
+						for(String el:level2){										// if second level
 							//System.out.println(el);
 							if(startElement.getName().getLocalPart().equals(el)){
 								System.out.print(el + " : ");
-								xmlEvent = xmlEventReader.nextEvent();
-								System.out.println(xmlEvent.asCharacters().getData());
-								break;
+								while(xmlEventReader.hasNext()){
+									if(xmlEvent.isEndElement() && xmlEvent.asEndElement().getName().getLocalPart().equals(el)){
+										break;
+									}
+									else if(xmlEvent.isCharacters()){
+										System.out.println(xmlEvent.asCharacters().getData());
+									}
+									xmlEvent = xmlEventReader.nextEvent();
+								}
+							break;
 							}
 						}
 					}
@@ -50,6 +59,7 @@ public class Parser{
 					}
 				}
 			}
+		//  }
 		}catch (FileNotFoundException | XMLStreamException e) {
             e.printStackTrace();
         }
