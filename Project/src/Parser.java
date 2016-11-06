@@ -9,8 +9,8 @@ import javax.xml.stream.events.XMLEvent;
 
 public class Parser{
 	
-	public String file = "/Users/Sagar/Desktop/dblp.xml";
-	public XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();													//XML Factory
+	private String file = "/Users/Sagar/Desktop/dblp.xml";
+	private XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();													//XML Factory
 	
 	public void parseOne(){
 		//int i;
