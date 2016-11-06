@@ -13,7 +13,7 @@ public class Parser{
 	public XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();													//XML Factory
 	
 	public void parseOne(){
-		int i;
+		//int i;
 		String publication = "";
 		try {
 			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));     // XML Event Reader
