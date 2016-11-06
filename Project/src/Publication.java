@@ -56,5 +56,9 @@ public class Publication {
 	public String getType(){
 		return publType;
 	}
+	
+	public boolean checkAuthor(String auth){
+		return(authors.contains(auth));
+	}
 
 }
