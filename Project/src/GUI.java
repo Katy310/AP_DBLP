@@ -1,11 +1,16 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.*;
+
 
 public class GUI {
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		...//Container pane = aFrame.getContentPane()...
+		//Container pane = aFrame.getContentPane()...
 		JButton button = new JButton("Button 1 (PAGE_START)");
-		frame.getContentPane.add(button, BorderLayout.PAGE_START);
+		frame.getContentPane().add(button, BorderLayout.PAGE_START);
 
 		//Make the center component big, since that's the
 		//typical usage of BorderLayout.
