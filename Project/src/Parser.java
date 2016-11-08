@@ -1,4 +1,7 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -12,54 +15,68 @@ public class Parser{
 	private String file = "/Users/Sagar/Desktop/dblp.xml";
 	private XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();													//XML Factory
 	
-	public void parseOne(){
-		//int i;
-		String publication = "";
+	public void parseAndSave(){
+		String lev1 = "",lev2 = "";
+		char type = 'x';
+		Publication pub = new Publication();
 		try {
 			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));     // XML Event Reader
-			//for(i = 0; i < 5000; i++){
+			//for(int i = 0; i < 5000; i++){
 			while(xmlEventReader.hasNext()){
+			if(xmlEventReader.hasNext()){
 				if(xmlEventReader.hasNext()){
 					XMLEvent xmlEvent = xmlEventReader.nextEvent();
 					if(xmlEvent.isStartElement()){
 						StartElement startElement = xmlEvent.asStartElement();
-						String[] level1 = {"article","inproceedings","proceedings","book","incollection","phdthesis","mastersthesis","www","person","data"};
-						String[] level2 = {"author","editor","title","booktitle","pages","year","address","journal","volume","number","month","url","ee","cdrom","cite","publisher","note","crossref","isbn","series","school","chapter","publnr"};
-						//String[] level3 = {"sub","sup","i","tt","ref"};
-						for(String ele:level1){                                      // if first level
-							//System.out.println(ele);
-							if(startElement.getName().getLocalPart().equals(ele)){
-								System.out.println("Publication : " + ele);
-								publication = ele;
-								break;
+						ArrayList<String> level1 = new ArrayList<String>(Arrays.asList("article","inproceedings","proceedings","book","incollection","phdthesis","mastersthesis","www","person","data"));
+						ArrayList<String> level2 = new ArrayList<String>(Arrays.asList("author","editor","title","booktitle","pages","year","address","journal","volume","number","month","url","ee","cdrom","cite","publisher","note","crossref","isbn","series","school","chapter","publnr"));
+						//ArrayList<String> level3 = new ArrayList<String>(Arrays.asList("sub","sup","i","tt","ref");
+						
+						if(level1.contains(startElement.getName().getLocalPart())){         // if level 1
+							lev1 = startElement.getName().getLocalPart();
+							//System.out.println("Publication : " + lev1);
+							if(lev1.equals("person") | lev1.equals("data")){
+								type = 'a'; //type is person
+							}else{
+								type = 'p'; //type is publication
+								pub = new Publication();
+								pub.setPublType(lev1);
 							}
 						}
-						for(String el:level2){										// if second level
-							//System.out.println(el);
-							if(startElement.getName().getLocalPart().equals(el)){
-								System.out.print(el + " : ");
-								while(xmlEventReader.hasNext()){
-									if(xmlEvent.isEndElement() && xmlEvent.asEndElement().getName().getLocalPart().equals(el)){
-										break;
-									}
-									else if(xmlEvent.isCharacters()){
-										System.out.println(xmlEvent.asCharacters().getData());
-									}
-									xmlEvent = xmlEventReader.nextEvent();
+						if(level2.contains(startElement.getName().getLocalPart())){ 		// if level 2
+							lev2 = startElement.getName().getLocalPart();
+							//System.out.print(lev2 + " : ");
+							while(xmlEventReader.hasNext()){					//taking up all level2
+								if(xmlEvent.isEndElement() && xmlEvent.asEndElement().getName().getLocalPart().equals(lev2)){       // skipped level 3
+									break;
 								}
-							break;
+								else if(xmlEvent.isCharacters()){
+									String val = xmlEvent.asCharacters().getData();
+									//System.out.println(val);
+									if(type == 'p'){   					//if publication
+										pub.addAttr(lev2, val);
+									}else if(type == 'a'){
+										
+									}
+								}
+								xmlEvent = xmlEventReader.nextEvent();
 							}
 						}
 					}
-					else if(xmlEvent.isEndElement()){
+					else if(xmlEvent.isEndElement()){		//end level1									
 						EndElement endElement = xmlEvent.asEndElement();
-						if(endElement.getName().getLocalPart().equals(publication)){
-							System.out.println("");
+						if(endElement.getName().getLocalPart().equals(lev1)){
+							//System.out.println("");
+							if(type == 'p'){   			//if publication
+								Main.addPublications(pub);
+							}else if(type == 'a'){
+								
+							}
 						}
 					}
 				}
 			}
-		//  }
+		  }
 		}catch (FileNotFoundException | XMLStreamException e) {
             e.printStackTrace();
         }

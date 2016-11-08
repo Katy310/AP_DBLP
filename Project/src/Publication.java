@@ -30,7 +30,21 @@ public class Publication {
 	}
 	
 	public void addAttr(String attr,String value){
-		Attributes.put(attr,value);
+		if(attr.equals("author")){
+			this.addAuthor(value);
+		}
+		else if(attr.equals("title")){
+			this.setTitle(value);
+		}
+		else if(attr.equals("year")){
+			this.setMonth(Integer.parseInt(value));
+		}
+		else if(attr.equals("month")){
+			this.setYear(Integer.parseInt(value));
+		}
+		else{
+			Attributes.put(attr,value);
+		}
 	}
 	
 	public String getTitle(){
@@ -59,6 +73,20 @@ public class Publication {
 	
 	public boolean checkAuthor(String auth){
 		return(authors.contains(auth));
+	}
+	
+	public String toString(){
+		String obj;
+		obj = "\nPublication : " + publType;
+		for(String auth:authors){
+			obj += "\nAuthor : " + auth;
+		}
+		obj += "\nTitle : " + title;
+		for(String key:Attributes.keySet()){
+			obj += "\n" + key + " : " + Attributes.get(key);
+		}
+		obj += "\n";
+		return(obj);
 	}
 
 }
