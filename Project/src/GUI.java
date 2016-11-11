@@ -4,23 +4,27 @@ import javax.swing.*;
 
 public class GUI {
 	
-	public static JLabel getLabel(String text) {
+	public static JLabel getLabel(String text) 
+	{
         return getLabel(text, SwingConstants.LEFT);
     }
 
     
-    public static JLabel getLabel(String text, int alignment) {
+    public static JLabel getLabel(String text, int alignment) 
+    {
         JLabel l = new JLabel(text, alignment);
         return l;
     }
-    
-	
+
+
 	public static void main(String[] args) 
 	{
 		JFrame frame = new JFrame();
 
 		JPanel panelHead = new JPanel(new BorderLayout());
-        panelHead.add(getLabel("DBLP Query Engine", SwingConstants.CENTER), BorderLayout.CENTER);
+		JLabel labelHead = getLabel("DBLP Query Engine", SwingConstants.CENTER);
+		labelHead.setFont(new Font("Serif", Font.BOLD, 24));
+		panelHead.add(labelHead, BorderLayout.CENTER);
 
 		JPanel mainLeftPanel = new JPanel();
 		mainLeftPanel.setMinimumSize(new Dimension(30,30));
