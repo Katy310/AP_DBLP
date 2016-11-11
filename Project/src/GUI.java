@@ -35,6 +35,7 @@ public class GUI {
 		String[] queries = { "Queries", "Query 1", "Query 2"};
 		JComboBox<String> queryList = new JComboBox<String>(queries);
 		queryList.setSelectedIndex(0);
+		mainLeftPanel.add(Box.createRigidArea(new Dimension(0,100)));
 		mainLeftPanel.add(queryList);
 		
 		JPanel mainRightPanel = new JPanel();
