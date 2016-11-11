@@ -6,6 +6,7 @@ public class Main {
 	//private static ArrayList<Person> persons = new ArrayList<Person>();
 
 	public static void main(String[] args) {
+		new GUI();
 		// TODO Auto-generated method stub
 		Parser pars = new Parser();
 		pars.parseAndSave();

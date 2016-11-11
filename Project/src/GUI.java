@@ -12,7 +12,7 @@ public class GUI {
 	private BoxLayout boxLayout;
 	private JComboBox<String> queryList;
 
-	public void GUI ()
+	public GUI ()
 	{
 		frame = new JFrame();
 
