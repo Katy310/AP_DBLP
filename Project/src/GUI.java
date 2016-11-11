@@ -30,6 +30,13 @@ public class GUI {
 		mainLeftPanel.setMinimumSize(new Dimension(30,30));
 		mainLeftPanel.setPreferredSize(new Dimension(200,600));
 		
+		BoxLayout boxLayout = new BoxLayout(mainLeftPanel, BoxLayout.Y_AXIS);
+		
+		String[] queries = { "Queries", "Query 1", "Query 2"};
+		JComboBox<String> queryList = new JComboBox<String>(queries);
+		queryList.setSelectedIndex(0);
+		mainLeftPanel.add(queryList);
+		
 		JPanel mainRightPanel = new JPanel();
 		mainRightPanel.setMinimumSize(new Dimension(30,30));
 		mainRightPanel.setPreferredSize(new Dimension(400,600));
