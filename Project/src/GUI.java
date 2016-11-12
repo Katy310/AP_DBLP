@@ -102,12 +102,6 @@ public class GUI {
         JLabel l = new JLabel(text, alignment);
         return l;
     }
-
-
-	public static void main(String[] args) 
-	{
-		GUI main = new GUI();
-	}
 	
 }
 

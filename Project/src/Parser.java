@@ -46,7 +46,7 @@ public class Parser{
 									person = new Person();
 							}else{
 								type = 'p'; //type is publication
-								//System.out.println("Publication");
+								System.out.println("Publication");
 								pub = new Publication();
 								pub.setPublType(lev1);
 							}
