@@ -11,6 +11,10 @@ public class GUI {
 	private JPanel mainLeftPanel;
 	private BoxLayout boxLayout;
 	private JComboBox<String> queryList;
+	private JComboBox<String> searchList;
+	private JPanel mainRightPanel;
+	private JSplitPane mainContent;
+	private JSplitPane mainFrame;
 
 	public GUI ()
 	{
@@ -35,18 +39,18 @@ public class GUI {
 		
 		queryList.addActionListener(new queryListener());
 		
-		JPanel mainRightPanel = new JPanel();
+		mainRightPanel = new JPanel();
 		mainRightPanel.setMinimumSize(new Dimension(30,30));
 		mainRightPanel.setPreferredSize(new Dimension(400,600));
 
 
-		JSplitPane mainContent = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, mainLeftPanel, mainRightPanel);
+		mainContent = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, mainLeftPanel, mainRightPanel);
 		mainContent.setResizeWeight(0.5);
         mainContent.setOneTouchExpandable(true);
         mainContent.setContinuousLayout(true);
         mainContent.setDividerLocation(200 + mainContent.getInsets().left);
 
-		JSplitPane mainFrame = new JSplitPane( JSplitPane.VERTICAL_SPLIT, panelHead, mainContent);
+		mainFrame = new JSplitPane( JSplitPane.VERTICAL_SPLIT, panelHead, mainContent);
 		mainFrame.setResizeWeight(0.5);
         mainFrame.setOneTouchExpandable(true);
         mainFrame.setContinuousLayout(true);
@@ -65,15 +69,27 @@ public class GUI {
 			JComboBox cb = (JComboBox)e.getSource();
 		    String query = (String)cb.getSelectedItem();
 			if (query.equals("Query 1"))
-			{
-			    panelHead.setVisible(false);
+			{	
+			    String[] searches = { "Search by", "Author", "Title"};
+				searchList = new JComboBox<String>(searches);
+				searchList.setSelectedIndex(0);
+				mainLeftPanel.add(Box.createRigidArea(new Dimension(0,25)));
+				mainLeftPanel.add(searchList);
+				mainLeftPanel.add(new JLabel("Hello"));
+				mainLeftPanel.setVisible(true);
 			}
 			else
 			{
-			    mainLeftPanel.setVisible(false);
+			    //query2();
 			}
 		}
 	}
+
+
+	//public static void query1()
+	//{
+
+	//}
 
 	public static JLabel getLabel(String text) 
 	{
@@ -94,3 +110,4 @@ public class GUI {
 	}
 	
 }
+
