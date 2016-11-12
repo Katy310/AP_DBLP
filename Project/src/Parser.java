@@ -36,17 +36,23 @@ public class Parser{
 						
 						if(level1.contains(startElement.getName().getLocalPart())){         // if level 1
 							lev1 = startElement.getName().getLocalPart();
-							Iterator<Attribute> attributes = startElement.getAttributes();
+							Iterator<Attribute> attributes = xmlEvent.asStartElement().getAttributes();
+							Attribute at;
 							//System.out.println("Publication : " + lev1);
+							at = attributes.next();
+							while(attributes.hasNext() && at.getName().equals("key")){
+								at = attributes.next();
+							}
+							String val = at.getValue();
 							if(lev1.equals("person") | lev1.equals("data")){
 								type = 'a'; //type is person
-							}else if(lev1.equals("www") && attributes.next().getValue().contains("hompages")){       // Person Records
+							}else if(lev1.equals("www") && val.contains("hompage/")){       // Person Records
 									type = 'b';
 									System.out.println("Person");
 									person = new Person();
 							}else{
 								type = 'p'; //type is publication
-								System.out.println("Publication");
+								//System.out.println("Publication");
 								pub = new Publication();
 								pub.setPublType(lev1);
 							}
