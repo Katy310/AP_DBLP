@@ -1,13 +1,14 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.Iterator;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import javax.xml.stream.events.Attribute;
 
 
 public class Parser{
@@ -19,6 +20,7 @@ public class Parser{
 		String lev1 = "",lev2 = "";
 		char type = 'x';
 		Publication pub = new Publication();
+		Person person = new Person();
 		try {
 			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));     // XML Event Reader
 			//for(int i = 0; i < 5000; i++){
@@ -34,11 +36,17 @@ public class Parser{
 						
 						if(level1.contains(startElement.getName().getLocalPart())){         // if level 1
 							lev1 = startElement.getName().getLocalPart();
+							Iterator<Attribute> attributes = startElement.getAttributes();
 							//System.out.println("Publication : " + lev1);
 							if(lev1.equals("person") | lev1.equals("data")){
 								type = 'a'; //type is person
+							}else if(lev1.equals("www") && attributes.next().getValue().contains("hompages")){       // Person Records
+									type = 'b';
+									System.out.println("Person");
+									person = new Person();
 							}else{
 								type = 'p'; //type is publication
+								//System.out.println("Publication");
 								pub = new Publication();
 								pub.setPublType(lev1);
 							}
@@ -55,8 +63,8 @@ public class Parser{
 									//System.out.println(val);
 									if(type == 'p'){   					//if publication
 										pub.addAttr(lev2, val);
-									}else if(type == 'a'){
-										
+									}else if(type == 'b' && lev2.equals("author")){
+										person.addName(val);
 									}
 								}
 								xmlEvent = xmlEventReader.nextEvent();
@@ -69,8 +77,8 @@ public class Parser{
 							//System.out.println("");
 							if(type == 'p'){   			//if publication
 								Main.addPublications(pub);
-							}else if(type == 'a'){
-								
+							}else if(type == 'b'){
+								Main.addPerson(person);
 							}
 						}
 					}

@@ -6,7 +6,8 @@ public class Publication {
 	private String publType;
 	private ArrayList<String> authors = new ArrayList<String>();
 	private String title;
-	private int month, year;
+	private String month;
+	private int year;
 	private HashMap<String,String> Attributes = new HashMap<String,String>();
 	
 	public void setTitle(String title){
@@ -17,7 +18,7 @@ public class Publication {
 		publType = type;
 	}
 	
-	public void setMonth(int m){
+	public void setMonth(String m){
 		month = m;
 	}
 	
@@ -37,10 +38,10 @@ public class Publication {
 			this.setTitle(value);
 		}
 		else if(attr.equals("year")){
-			this.setMonth(Integer.parseInt(value));
+			this.setYear(Integer.parseInt(value));
 		}
 		else if(attr.equals("month")){
-			this.setYear(Integer.parseInt(value));
+			this.setMonth(value);
 		}
 		else{
 			Attributes.put(attr,value);
@@ -59,7 +60,7 @@ public class Publication {
 		return(Attributes.get(key));
 	}
 	
-	public int getMonth(){
+	public String getMonth(){
 		return month;
 	}
 	
