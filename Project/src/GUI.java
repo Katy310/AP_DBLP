@@ -19,6 +19,9 @@ public class GUI {
 	private JTextField sinceYear;
 	private JTextField rangeBegin;
 	private JTextField rangeEnd;
+	private JButton search;
+	private JButton reset;
+	private JTextField noPublications;
 
 	public GUI ()
 	{
@@ -139,17 +142,32 @@ public class GUI {
 				leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 
 				Box tinyBox4 = Box.createVerticalBox();
+				JPanel panel1 = new JPanel();
+				JPanel panel2 = new JPanel();
 			    ButtonGroup radioGroup = new ButtonGroup();
 			    JRadioButton rbutton;
 			    radioGroup.add(rbutton = new JRadioButton("Sort by Year"));
-			    rbutton.setAlignmentY(Component.TOP_ALIGNMENT);
-			    tinyBox4.add(rbutton);
-			    tinyBox4.add(Box.createRigidArea(new Dimension(0,10)));
+				panel1.add(rbutton, BorderLayout.PAGE_START);
+				tinyBox4.add(panel1);
+				tinyBox4.add(Box.createRigidArea(new Dimension(5,0)));
 			    radioGroup.add(rbutton = new JRadioButton("Sort by Relevance"));
-			    rbutton.setAlignmentY(Component.TOP_ALIGNMENT);
-			    tinyBox4.add(rbutton);
+			    panel2.add(rbutton, BorderLayout.PAGE_START);
+			    tinyBox4.add(panel2);
+				tinyBox4.add(Box.createRigidArea(new Dimension(5,0)));
 			    leftBox.add(tinyBox4);
 				leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+
+				Box tinyBox5 = Box.createHorizontalBox();
+				search = new JButton("Search");
+				search.setForeground(Color.WHITE);
+				search.setBackground(Color.BLACK);
+				tinyBox5.add(search);
+				tinyBox5.add(Box.createRigidArea(new Dimension(10,10)));
+				reset = new JButton("Reset");
+				reset.setForeground(Color.WHITE);
+				reset.setBackground(Color.RED);
+				tinyBox5.add(reset);
+				leftBox.add(tinyBox5);
 
 				mainLeftPanel.add(leftBox);
 				
@@ -176,7 +194,72 @@ public class GUI {
 			}
 			else
 			{
-				//query2();
+				mainFrame.setVisible(false);
+
+				mainLeftPanel = new JPanel();
+				mainLeftPanel.setMinimumSize(new Dimension(30,30));
+				mainLeftPanel.setPreferredSize(new Dimension(200,600));
+				mainLeftPanel.setVisible(true);
+				
+				panelHead = new JPanel(new BorderLayout());
+				labelHead = getLabel("DBLP Query Engine", SwingConstants.CENTER);
+				labelHead.setFont(new Font("Serif", Font.BOLD, 24));
+				panelHead.add(labelHead, BorderLayout.CENTER);
+				
+				Box leftBox = Box.createVerticalBox();
+				
+				String[] queries = {"Queries", "Query 1", "Query 2"};
+				queryList = new JComboBox<String>(queries);
+				queryList.setSelectedIndex(2);
+				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+				leftBox.add(queryList);
+				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+				
+				queryList.addActionListener(new queryListener());
+
+				Box tinyBox = Box.createHorizontalBox();
+				JLabel publicationsLabel = new JLabel("No. of Publications");
+				tinyBox.add(publicationsLabel);
+				tinyBox.add(Box.createRigidArea(new Dimension(5,0)));
+				noPublications = new JTextField(5);
+				tinyBox.add(noPublications);
+				leftBox.add(tinyBox);
+				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+
+				Box tinyBox2 = Box.createHorizontalBox();
+				search = new JButton("Search");
+				search.setForeground(Color.WHITE);
+				search.setBackground(Color.BLACK);
+				tinyBox2.add(search);
+				tinyBox2.add(Box.createRigidArea(new Dimension(10,10)));
+				reset = new JButton("Reset");
+				reset.setForeground(Color.WHITE);
+				reset.setBackground(Color.RED);
+				tinyBox2.add(reset);
+				leftBox.add(tinyBox2);
+				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+
+				mainLeftPanel.add(leftBox);
+				
+				mainRightPanel = new JPanel();
+				mainRightPanel.setMinimumSize(new Dimension(30,30));
+				mainRightPanel.setPreferredSize(new Dimension(400,600));
+
+				mainContent = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, mainLeftPanel, mainRightPanel);
+				mainContent.setResizeWeight(0.5);
+				mainContent.setOneTouchExpandable(true);
+				mainContent.setContinuousLayout(true);
+				mainContent.setDividerLocation(225 + mainContent.getInsets().left);
+
+				mainFrame = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelHead, mainContent);
+				mainFrame.setResizeWeight(0.5);
+				mainFrame.setOneTouchExpandable(true);
+				mainFrame.setContinuousLayout(true);
+				mainFrame.setDividerLocation(50 + mainFrame.getInsets().left);
+
+				frame.getContentPane().add(mainFrame);
+				frame.setSize(600,600);
+				frame.setVisible(true);
 			}
 		}
 	}
