@@ -40,21 +40,24 @@ public class Parser{
 							Attribute at;
 							//System.out.println("Publication : " + lev1);
 							at = attributes.next();
-							while(attributes.hasNext() && at.getName().equals("key")){
+							while(attributes.hasNext() && !(at.getName().equals("key"))){
 								at = attributes.next();
 							}
 							String val = at.getValue();
+							if(at.getName().equals("key")){
+								System.out.println("key : " + val);
+							}
 							if(lev1.equals("person") | lev1.equals("data")){
 								type = 'a'; //type is person
 							}else if(lev1.equals("www") && val.contains("hompage/")){       // Person Records
 									type = 'b';
 									System.out.println("Person");
-									person = new Person();
+									//person = new Person();
 							}else{
 								type = 'p'; //type is publication
 								//System.out.println("Publication");
-								pub = new Publication();
-								pub.setPublType(lev1);
+								//pub = new Publication();
+								//pub.setPublType(lev1);
 							}
 						}
 						if(level2.contains(startElement.getName().getLocalPart())){ 		// if level 2
@@ -68,9 +71,9 @@ public class Parser{
 									String val = xmlEvent.asCharacters().getData();
 									//System.out.println(val);
 									if(type == 'p'){   					//if publication
-										pub.addAttr(lev2, val);
+										//pub.addAttr(lev2, val);
 									}else if(type == 'b' && lev2.equals("author")){
-										person.addName(val);
+										//person.addName(val);
 									}
 								}
 								xmlEvent = xmlEventReader.nextEvent();
@@ -82,9 +85,9 @@ public class Parser{
 						if(endElement.getName().getLocalPart().equals(lev1)){
 							//System.out.println("");
 							if(type == 'p'){   			//if publication
-								Main.addPublications(pub);
+								//Main.addPublications(pub);
 							}else if(type == 'b'){
-								Main.addPerson(person);
+								//Main.addPerson(person);
 							}
 						}
 					}
