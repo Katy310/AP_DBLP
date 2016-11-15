@@ -270,11 +270,11 @@ public class GUI {
     	}
 
     
-    public static JLabel getLabel(String text, int alignment) 
-    {
-        JLabel l = new JLabel(text, alignment);
-        return l;
-    }
+    	public static JLabel getLabel(String text, int alignment) 
+    	{
+        	JLabel l = new JLabel(text, alignment);
+        	return l;
+    	}
 
 
 	public static void main(String[] args) 
