@@ -25,7 +25,6 @@ public class Parser{
 			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));     // XML Event Reader
 			//for(int i = 0; i < 5000; i++){
 			while(xmlEventReader.hasNext()){
-			if(xmlEventReader.hasNext()){
 				if(xmlEventReader.hasNext()){
 					XMLEvent xmlEvent = xmlEventReader.nextEvent();
 					if(xmlEvent.isStartElement()){
@@ -44,12 +43,12 @@ public class Parser{
 								at = attributes.next();
 							}
 							String val = at.getValue();
-							if(at.getName().equals("key")){
-								System.out.println("key : " + val);
-							}
+//							if(at.getName().equals("key")){
+							//System.out.println("key : " + val);
+//							}
 							if(lev1.equals("person") | lev1.equals("data")){
 								type = 'a'; //type is person
-							}else if(lev1.equals("www") && val.contains("hompage/")){       // Person Records
+							}else if(lev1.equals("www") && val.contains("homepages/")){       // Person Records
 									type = 'b';
 									System.out.println("Person");
 									//person = new Person();
@@ -93,7 +92,6 @@ public class Parser{
 					}
 				}
 			}
-		  }
 		}catch (FileNotFoundException | XMLStreamException e) {
             e.printStackTrace();
         }
