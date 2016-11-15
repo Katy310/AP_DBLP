@@ -144,17 +144,17 @@ public class GUI {
 				Box tinyBox4 = Box.createVerticalBox();
 				JPanel panel1 = new JPanel();
 				JPanel panel2 = new JPanel();
-			    ButtonGroup radioGroup = new ButtonGroup();
-			    JRadioButton rbutton;
-			    radioGroup.add(rbutton = new JRadioButton("Sort by Year"));
+			    	ButtonGroup radioGroup = new ButtonGroup();
+			    	JRadioButton rbutton;
+			    	radioGroup.add(rbutton = new JRadioButton("Sort by Year"));
 				panel1.add(rbutton, BorderLayout.PAGE_START);
 				tinyBox4.add(panel1);
 				tinyBox4.add(Box.createRigidArea(new Dimension(5,0)));
-			    radioGroup.add(rbutton = new JRadioButton("Sort by Relevance"));
-			    panel2.add(rbutton, BorderLayout.PAGE_START);
-			    tinyBox4.add(panel2);
+			    	radioGroup.add(rbutton = new JRadioButton("Sort by Relevance"));
+			    	panel2.add(rbutton, BorderLayout.PAGE_START);
+			    	tinyBox4.add(panel2);
 				tinyBox4.add(Box.createRigidArea(new Dimension(5,0)));
-			    leftBox.add(tinyBox4);
+			    	leftBox.add(tinyBox4);
 				leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 
 				Box tinyBox5 = Box.createHorizontalBox();
@@ -264,16 +264,10 @@ public class GUI {
 		}
 	}
 
-
-	//public static void query1()
-	//{
-
-	//}
-
 	public static JLabel getLabel(String text) 
 	{
-        return getLabel(text, SwingConstants.LEFT);
-    }
+        	return getLabel(text, SwingConstants.LEFT);
+    	}
 
     
     public static JLabel getLabel(String text, int alignment) 
