@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Publication {
+public class Publication implements Comparable<int>{
 	
 	private String publType;
 	private ArrayList<String> authors = new ArrayList<String>();
@@ -10,6 +10,24 @@ public class Publication {
 	private int year;
 	private HashMap<String,String> Attributes = new HashMap<String,String>();
 	
+	@
+	public int compareTo(Publication another)
+	{
+		if (another.getYear() > this.getYear())
+		{
+			return 1;
+		}
+		else if (another.getYear() < this.getYear())
+		{
+			return -1;
+		}
+		else	
+		{
+			return 0;
+		}
+	}
+
+
 	public void setTitle(String title){
 		this.title = title;
 	}
