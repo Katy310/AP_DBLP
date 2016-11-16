@@ -8,10 +8,13 @@ public class Main {
 	public static void main(String[] args) {
 		new GUI();
 		// TODO Auto-generated method stub
+		publications.clear();
+		persons.clear();
 		Parser pars = new Parser();
-		pars.parseAndSave();
-		showAllPublications();
-		showAllPersons();
+		pars.getAllAuthors();
+		//showAllPublications();
+		//showAllPersons();
+		System.out.println("");
 	}
 
 	public static void addPublications(Publication pub){
