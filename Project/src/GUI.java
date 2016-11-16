@@ -22,6 +22,18 @@ public class GUI {
 	private JButton search;
 	private JButton reset;
 	private JTextField noPublications;
+	private int noOfPublications;
+
+	public void setk(int k)
+	{
+		noOfPublications = k;
+	}
+
+	public int getk()
+	{
+		return noOfPublications;
+	}
+
 
 	public GUI ()
 	{
@@ -171,6 +183,7 @@ public class GUI {
 				
 			mainRightPanel = new JPanel();
 			mainRightPanel.add(table);
+			table.setFillsViewportHeight(true);
 			mainRightPanel.setMinimumSize(new Dimension(30,30));
 			mainRightPanel.setPreferredSize(new Dimension(400,600));
 
@@ -190,6 +203,17 @@ public class GUI {
 			frame.setSize(600,600);
 			frame.setVisible(true);
 				
+		}
+	}
+	
+	class queryListener2 implements ActionListener 
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{	
+				Integer num = Integer.parseInt(noPublications.getText());
+				setk(num);
+				System.out.println(getk());
 		}
 	}
 	
@@ -348,6 +372,7 @@ public class GUI {
 				tinyBox.add(publicationsLabel);
 				tinyBox.add(Box.createRigidArea(new Dimension(5,0)));
 				noPublications = new JTextField(5);
+				noPublications.addActionListener(new queryListener2());
 				tinyBox.add(noPublications);
 				leftBox.add(tinyBox);
 				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
@@ -357,6 +382,7 @@ public class GUI {
 				search.setForeground(Color.WHITE);
 				search.setBackground(Color.BLACK);
 				tinyBox2.add(search);
+				search.addActionListener(new queryListener2());
 				tinyBox2.add(Box.createRigidArea(new Dimension(10,10)));
 				reset = new JButton("Reset");
 				reset.setForeground(Color.WHITE);
