@@ -67,6 +67,131 @@ public class GUI {
 		frame.setSize(600,600);
 		frame.setVisible(true);
 	}
+
+	class queryListener1 implements ActionListener
+	{
+		
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			mainFrame.setVisible(false);
+
+			JTable table = new JTable(20,8);
+			mainLeftPanel = new JPanel();
+			mainLeftPanel.setMinimumSize(new Dimension(30,30));
+			mainLeftPanel.setPreferredSize(new Dimension(200,600));
+			mainLeftPanel.setVisible(true);
+				
+			panelHead = new JPanel(new BorderLayout());
+			labelHead = getLabel("DBLP Query Engine", SwingConstants.CENTER);
+			labelHead.setFont(new Font("Serif", Font.BOLD, 24));
+			panelHead.add(labelHead, BorderLayout.CENTER);
+				
+			Box leftBox = Box.createVerticalBox();
+				
+			String[] queries = {"Queries", "Query 1", "Query 2"};
+			queryList = new JComboBox<String>(queries);
+			queryList.setSelectedIndex(1);
+			leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+			leftBox.add(queryList);
+				
+			queryList.addActionListener(new queryListener());
+				
+			String[] searches = { "Search by", "Author", "Title"};
+			searchList = new JComboBox<String>(searches);
+			searchList.setSelectedIndex(0);
+			leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+			leftBox.add(searchList);
+			leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+				
+			Box tinyBox = Box.createHorizontalBox();
+			JLabel tagsLabel = new JLabel("Name/Title tags");
+			tinyBox.add(tagsLabel);
+			tinyBox.add(Box.createRigidArea(new Dimension(5,0)));
+			tags = new JTextField(5);
+			tinyBox.add(tags);
+			leftBox.add(tinyBox);
+			leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+
+			Box tinyBox2 = Box.createHorizontalBox();
+			JLabel sinceLabel = new JLabel("Since Year");
+			tinyBox2.add(sinceLabel);
+			tinyBox2.add(Box.createRigidArea(new Dimension(20,0)));
+			sinceYear = new JTextField("YYYY",4);
+			tinyBox2.add(sinceYear);
+			leftBox.add(tinyBox2);
+			leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+
+			Box tinyBox3 = Box.createHorizontalBox();
+			JLabel rangeLabel = new JLabel("Custom Range");
+			tinyBox3.add(rangeLabel);
+			tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
+			rangeBegin = new JTextField("YYYY",3);
+			tinyBox3.add(rangeBegin);
+			tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
+			JLabel hyphen = new JLabel("-");
+			tinyBox3.add(hyphen);
+			tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
+			rangeEnd = new JTextField("YYYY",3);
+			tinyBox3.add(rangeEnd);
+			tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
+			leftBox.add(tinyBox3);
+			leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+
+			Box tinyBox4 = Box.createVerticalBox();
+			JPanel panel1 = new JPanel();
+			JPanel panel2 = new JPanel();
+			ButtonGroup radioGroup = new ButtonGroup();
+			JRadioButton rbutton;
+			radioGroup.add(rbutton = new JRadioButton("Sort by Year"));
+			panel1.add(rbutton, BorderLayout.PAGE_START);
+			tinyBox4.add(panel1);
+			tinyBox4.add(Box.createRigidArea(new Dimension(5,0)));
+			radioGroup.add(rbutton = new JRadioButton("Sort by Relevance"));
+			panel2.add(rbutton, BorderLayout.PAGE_START);
+			tinyBox4.add(panel2);
+			tinyBox4.add(Box.createRigidArea(new Dimension(5,0)));
+			leftBox.add(tinyBox4);
+			leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+
+			Box tinyBox5 = Box.createHorizontalBox();
+			search = new JButton("Search");
+			search.setForeground(Color.WHITE);
+			search.setBackground(Color.BLACK);
+			tinyBox5.add(search);
+			search.addActionListener(new queryListener1());
+			tinyBox5.add(Box.createRigidArea(new Dimension(10,10)));
+			reset = new JButton("Reset");
+			reset.setForeground(Color.WHITE);
+			reset.setBackground(Color.RED);
+			tinyBox5.add(reset);
+			leftBox.add(tinyBox5);
+
+			mainLeftPanel.add(leftBox);
+				
+			mainRightPanel = new JPanel();
+			mainRightPanel.add(table);
+			mainRightPanel.setMinimumSize(new Dimension(30,30));
+			mainRightPanel.setPreferredSize(new Dimension(400,600));
+
+			mainContent = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, mainLeftPanel, mainRightPanel);
+			mainContent.setResizeWeight(0.5);
+			mainContent.setOneTouchExpandable(true);
+			mainContent.setContinuousLayout(true);
+			mainContent.setDividerLocation(225 + mainContent.getInsets().left);
+
+			mainFrame = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelHead, mainContent);
+			mainFrame.setResizeWeight(0.5);
+			mainFrame.setOneTouchExpandable(true);
+			mainFrame.setContinuousLayout(true);
+			mainFrame.setDividerLocation(50 + mainFrame.getInsets().left);
+
+			frame.getContentPane().add(mainFrame);
+			frame.setSize(600,600);
+			frame.setVisible(true);
+				
+		}
+	}
 	
 	class queryListener implements ActionListener
 	{	
@@ -144,17 +269,17 @@ public class GUI {
 				Box tinyBox4 = Box.createVerticalBox();
 				JPanel panel1 = new JPanel();
 				JPanel panel2 = new JPanel();
-			    	ButtonGroup radioGroup = new ButtonGroup();
-			    	JRadioButton rbutton;
-			    	radioGroup.add(rbutton = new JRadioButton("Sort by Year"));
+			    ButtonGroup radioGroup = new ButtonGroup();
+			    JRadioButton rbutton;
+			    radioGroup.add(rbutton = new JRadioButton("Sort by Year"));
 				panel1.add(rbutton, BorderLayout.PAGE_START);
 				tinyBox4.add(panel1);
 				tinyBox4.add(Box.createRigidArea(new Dimension(5,0)));
-			    	radioGroup.add(rbutton = new JRadioButton("Sort by Relevance"));
-			    	panel2.add(rbutton, BorderLayout.PAGE_START);
-			    	tinyBox4.add(panel2);
+			    radioGroup.add(rbutton = new JRadioButton("Sort by Relevance"));
+			    panel2.add(rbutton, BorderLayout.PAGE_START);
+			    tinyBox4.add(panel2);
 				tinyBox4.add(Box.createRigidArea(new Dimension(5,0)));
-			    	leftBox.add(tinyBox4);
+			    leftBox.add(tinyBox4);
 				leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 
 				Box tinyBox5 = Box.createHorizontalBox();
@@ -162,6 +287,7 @@ public class GUI {
 				search.setForeground(Color.WHITE);
 				search.setBackground(Color.BLACK);
 				tinyBox5.add(search);
+				search.addActionListener(new queryListener1());
 				tinyBox5.add(Box.createRigidArea(new Dimension(10,10)));
 				reset = new JButton("Reset");
 				reset.setForeground(Color.WHITE);
