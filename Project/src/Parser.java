@@ -18,8 +18,9 @@ public class Parser{
 	private Person person = new Person();
 	private Publication pub = new Publication();
 	private String lev1,lev2;
-	private ArrayList<String> level1 = new ArrayList<String>(Arrays.asList("article","inproceedings","proceedings","book","incollection","phdthesis","mastersthesis","www","person","data"));
+	private ArrayList<String> level1 = new ArrayList<String>(Arrays.asList("article","inproceedings","proceedings","book","incollection","phdthesis","mastersthesis","www"));
 	private ArrayList<String> level2 = new ArrayList<String>(Arrays.asList("author","editor","title","booktitle","pages","year","address","journal","volume","number","month","url","ee","cdrom","cite","publisher","note","crossref","isbn","series","school","chapter","publnr"));
+	private ArrayList<Person> Authors = new ArrayList<Person>();
 	
 	
 	
@@ -62,13 +63,62 @@ public class Parser{
 					EndElement endElement = xmlEvent.asEndElement();
 					if(endElement.getName().getLocalPart().equals("www")){
 						Main.addPerson(person);
+						System.out.println(person.toString());
 					}
 				}
 			}
 		}catch (FileNotFoundException | XMLStreamException e) {
             e.printStackTrace();
         }	
+		Authors = Main.getAllAuthors();
+		System.out.println("Size : " + Authors.size());
 		System.out.println("All Authors Saved Successfully! :D");
+	}
+	
+	public void Query2(int k){
+		String publType = "";
+		boolean type = false;
+		try{
+			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));     // XML Event Reader
+			while(xmlEventReader.hasNext()){
+				XMLEvent xmlEvent = xmlEventReader.nextEvent();
+				if(xmlEvent.isStartElement()){
+					StartElement startElement = xmlEvent.asStartElement();
+					lev1 = startElement.getName().getLocalPart();
+					if(level1.contains(lev1)){         // if type publication
+						type = true;
+						publType = lev1;
+					}
+					else if(lev1.equals("author") && type){
+						while(xmlEventReader.hasNext()){					//taking up all level2
+							if(xmlEvent.isEndElement() && xmlEvent.asEndElement().getName().getLocalPart().equals(lev2)){       // skipped level 3
+								break;
+							}
+							else if(xmlEvent.isCharacters()){
+								String auth = xmlEvent.asCharacters().getData();
+								for(Person p : Authors){
+									if(p.ifSame(auth)){
+										p.publFound();
+										System.out.println("Author: " + auth);
+										System.out.println("Person: " + p.getPrimName());
+									}
+								}
+							}
+							xmlEvent = xmlEventReader.nextEvent();
+						}
+					}
+				}
+				else if(xmlEvent.isEndElement()){
+					EndElement endElement = xmlEvent.asEndElement();
+					if(endElement.getName().getLocalPart().equals(publType)){
+						type = false;
+					}
+				}
+			}
+		}catch (FileNotFoundException | XMLStreamException e) {
+            e.printStackTrace();
+        }
+		Main.setPersons(Authors);
 	}
 	
 	public void parseAndSave(){

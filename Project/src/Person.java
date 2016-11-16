@@ -38,15 +38,17 @@ public class Person {
 	}
 	
 	public boolean ifSame(String name){
-		return(names.contains(name));
+		boolean x = (names.contains(name) || PrimName.equals(name));
+		return(x);
 	}
 	
 	public String toString(){
 		String obj;
-		obj = "Primary Name : " + PrimName;
+		obj = "Primary Name : " + PrimName + "\n";
 		for(String auth : names){
-			obj += "Author : " + auth;
+			obj += "Author : " + auth + "\n";
 		}
+		obj += NoPubl + "\n";
 		return(obj);
 	}
 	

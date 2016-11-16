@@ -4,7 +4,7 @@ public class Main {
 
 	private static ArrayList<Publication> publications = new ArrayList<Publication>();
 	private static ArrayList<Person> persons = new ArrayList<Person>();
-
+	
 	public static void main(String[] args) {
 		new GUI();
 		// TODO Auto-generated method stub
@@ -13,8 +13,8 @@ public class Main {
 		Parser pars = new Parser();
 		pars.getAllAuthors();
 		//showAllPublications();
-		//showAllPersons();
-		System.out.println("");
+		showAllPersons();
+		System.exit(0);
 	}
 
 	public static void addPublications(Publication pub){
@@ -35,5 +35,17 @@ public class Main {
 		for(Person pers:persons){
 			System.out.println(pers.toString());
 		}
+	}
+	
+	public static ArrayList<Person> getAllAuthors(){
+		return(persons);
+	}
+	
+	public static ArrayList<Publication> getAllPublications(){
+		return(publications);
+	}
+	
+	public static void setPersons(ArrayList<Person> auths){
+		persons = auths;
 	}
 }
