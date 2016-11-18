@@ -29,8 +29,7 @@ public class GUI {
 		noOfPublications = k;
 	}
 
-
-	public int getk()
+    public int getk()
 	{
 		return noOfPublications;
 	}
