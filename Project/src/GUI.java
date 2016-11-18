@@ -1,10 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Random; 
+import java.util.Random;
 
 public class GUI {
-	
+
 	private JFrame frame;
 	private JPanel panelHead;
 	private JLabel labelHead;
@@ -29,6 +29,7 @@ public class GUI {
 		noOfPublications = k;
 	}
 
+
 	public int getk()
 	{
 		return noOfPublications;
@@ -47,17 +48,17 @@ public class GUI {
 		mainLeftPanel = new JPanel();
 		mainLeftPanel.setMinimumSize(new Dimension(30,30));
 		mainLeftPanel.setPreferredSize(new Dimension(200,600));
-		
+
 		boxLayout = new BoxLayout(mainLeftPanel, BoxLayout.Y_AXIS);
-		
+
 		String[] queries = { "Queries", "Query 1", "Query 2"};
 		queryList = new JComboBox<String>(queries);
 		queryList.setSelectedIndex(0);
 		mainLeftPanel.add(Box.createRigidArea(new Dimension(0,50)));
 		mainLeftPanel.add(queryList);
-		
+
 		queryList.addActionListener(new queryListener());
-		
+
 		mainRightPanel = new JPanel();
 		mainRightPanel.setMinimumSize(new Dimension(30,30));
 		mainRightPanel.setPreferredSize(new Dimension(400,600));
@@ -82,7 +83,7 @@ public class GUI {
 
 	class queryListener1 implements ActionListener
 	{
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
@@ -93,29 +94,29 @@ public class GUI {
 			mainLeftPanel.setMinimumSize(new Dimension(30,30));
 			mainLeftPanel.setPreferredSize(new Dimension(200,600));
 			mainLeftPanel.setVisible(true);
-				
+
 			panelHead = new JPanel(new BorderLayout());
 			labelHead = getLabel("DBLP Query Engine", SwingConstants.CENTER);
 			labelHead.setFont(new Font("Serif", Font.BOLD, 24));
 			panelHead.add(labelHead, BorderLayout.CENTER);
-				
+
 			Box leftBox = Box.createVerticalBox();
-				
+
 			String[] queries = {"Queries", "Query 1", "Query 2"};
 			queryList = new JComboBox<String>(queries);
 			queryList.setSelectedIndex(1);
 			leftBox.add(Box.createRigidArea(new Dimension(0,50)));
 			leftBox.add(queryList);
-				
+
 			queryList.addActionListener(new queryListener());
-				
+
 			String[] searches = { "Search by", "Author", "Title"};
 			searchList = new JComboBox<String>(searches);
 			searchList.setSelectedIndex(0);
 			leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 			leftBox.add(searchList);
 			leftBox.add(Box.createRigidArea(new Dimension(0,10)));
-				
+
 			Box tinyBox = Box.createHorizontalBox();
 			JLabel tagsLabel = new JLabel("Name/Title tags");
 			tinyBox.add(tagsLabel);
@@ -180,7 +181,7 @@ public class GUI {
 			leftBox.add(tinyBox5);
 
 			mainLeftPanel.add(leftBox);
-				
+
 			mainRightPanel = new JPanel();
 			mainRightPanel.add(table);
 			table.setFillsViewportHeight(true);
@@ -202,23 +203,23 @@ public class GUI {
 			frame.getContentPane().add(mainFrame);
 			frame.setSize(600,600);
 			frame.setVisible(true);
-				
+
 		}
 	}
-	
-	class queryListener2 implements ActionListener 
+
+	class queryListener2 implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent e)
-		{	
+		{
 				Integer num = Integer.parseInt(noPublications.getText());
 				setk(num);
 				System.out.println(getk());
 		}
 	}
-	
+
 	class queryListener implements ActionListener
-	{	
+	{
 
 		@Override
 		public void actionPerformed(ActionEvent e)
@@ -226,36 +227,36 @@ public class GUI {
 			JComboBox cb = (JComboBox)e.getSource();
 		    String query = (String)cb.getSelectedItem();
 			if (query.equals("Query 1"))
-			{	
+			{
 				mainFrame.setVisible(false);
 
 				mainLeftPanel = new JPanel();
 				mainLeftPanel.setMinimumSize(new Dimension(30,30));
 				mainLeftPanel.setPreferredSize(new Dimension(200,600));
 				mainLeftPanel.setVisible(true);
-				
+
 				panelHead = new JPanel(new BorderLayout());
 				labelHead = getLabel("DBLP Query Engine", SwingConstants.CENTER);
 				labelHead.setFont(new Font("Serif", Font.BOLD, 24));
 				panelHead.add(labelHead, BorderLayout.CENTER);
-				
+
 				Box leftBox = Box.createVerticalBox();
-				
+
 				String[] queries = {"Queries", "Query 1", "Query 2"};
 				queryList = new JComboBox<String>(queries);
 				queryList.setSelectedIndex(1);
 				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
 				leftBox.add(queryList);
-				
+
 				queryList.addActionListener(new queryListener());
-				
+
 				String[] searches = { "Search by", "Author", "Title"};
 				searchList = new JComboBox<String>(searches);
 				searchList.setSelectedIndex(0);
 				leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 				leftBox.add(searchList);
 				leftBox.add(Box.createRigidArea(new Dimension(0,10)));
-				
+
 				Box tinyBox = Box.createHorizontalBox();
 				JLabel tagsLabel = new JLabel("Name/Title tags");
 				tinyBox.add(tagsLabel);
@@ -320,7 +321,7 @@ public class GUI {
 				leftBox.add(tinyBox5);
 
 				mainLeftPanel.add(leftBox);
-				
+
 				mainRightPanel = new JPanel();
 				mainRightPanel.setMinimumSize(new Dimension(30,30));
 				mainRightPanel.setPreferredSize(new Dimension(400,600));
@@ -340,7 +341,7 @@ public class GUI {
 				frame.getContentPane().add(mainFrame);
 				frame.setSize(600,600);
 				frame.setVisible(true);
-				
+
 			}
 			else
 			{
@@ -350,21 +351,21 @@ public class GUI {
 				mainLeftPanel.setMinimumSize(new Dimension(30,30));
 				mainLeftPanel.setPreferredSize(new Dimension(200,600));
 				mainLeftPanel.setVisible(true);
-				
+
 				panelHead = new JPanel(new BorderLayout());
 				labelHead = getLabel("DBLP Query Engine", SwingConstants.CENTER);
 				labelHead.setFont(new Font("Serif", Font.BOLD, 24));
 				panelHead.add(labelHead, BorderLayout.CENTER);
-				
+
 				Box leftBox = Box.createVerticalBox();
-				
+
 				String[] queries = {"Queries", "Query 1", "Query 2"};
 				queryList = new JComboBox<String>(queries);
 				queryList.setSelectedIndex(2);
 				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
 				leftBox.add(queryList);
 				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
-				
+
 				queryList.addActionListener(new queryListener());
 
 				Box tinyBox = Box.createHorizontalBox();
@@ -392,7 +393,7 @@ public class GUI {
 				leftBox.add(Box.createRigidArea(new Dimension(0,50)));
 
 				mainLeftPanel.add(leftBox);
-				
+
 				mainRightPanel = new JPanel();
 				mainRightPanel.setMinimumSize(new Dimension(30,30));
 				mainRightPanel.setPreferredSize(new Dimension(400,600));
@@ -416,23 +417,23 @@ public class GUI {
 		}
 	}
 
-	public static JLabel getLabel(String text) 
+	public static JLabel getLabel(String text)
 	{
         	return getLabel(text, SwingConstants.LEFT);
     	}
 
-    
-    	public static JLabel getLabel(String text, int alignment) 
+
+    	public static JLabel getLabel(String text, int alignment)
     	{
         	JLabel l = new JLabel(text, alignment);
         	return l;
     	}
 
 
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
 		GUI main = new GUI();
 	}
-	
+
 }
 
