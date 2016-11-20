@@ -12,6 +12,7 @@ public class Main {
 		Parser pars = new Parser();
 		pars.getAllAuthors();
 		System.out.println("Person Size: " + persons.size());
+		showAllPersons();
 		System.exit(0);
 	}
 

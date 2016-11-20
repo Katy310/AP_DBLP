@@ -120,6 +120,46 @@ public class Parser{
 		Main.setPersons(Authors);
 	}
 	
+	public void Query1a(String tags){
+		String publType = "";
+		boolean type = false;
+		boolean q = false;
+		String auth = "";
+		try{
+			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));     // XML Event Reader
+			while(xmlEventReader.hasNext()){
+				XMLEvent xmlEvent = xmlEventReader.nextEvent();
+				if(xmlEvent.isStartElement()){
+					StartElement startElement = xmlEvent.asStartElement();
+					lev1 = startElement.getName().getLocalPart();
+					if(level1.contains(lev1)){   // if publication	
+						type = true;
+						publType = lev1;
+					}
+					else if(lev1.equals("author") && type){
+						while(xmlEventReader.hasNext()){					//taking up all level2
+							if(xmlEvent.isEndElement() && xmlEvent.asEndElement().getName().getLocalPart().equals(lev2)){       // skipped level 3
+								break;
+							}
+							else if(xmlEvent.isCharacters()){
+								auth = xmlEvent.asCharacters().getData();
+							}
+						}
+						if(auth.contains(tags)){
+							pub = new Publication();
+							pub.setPublType(publType);
+							pub.addAuthor(auth);
+						}
+					}
+				}
+			}
+		}catch (FileNotFoundException | XMLStreamException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	
+	
 	public void parseAndSave(){
 	
 		char type = 'x';
