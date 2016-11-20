@@ -7,13 +7,11 @@ public class Main {
 	
 	public static void main(String[] args) {
 		new GUI();
-		// TODO Auto-generated method stub
 		publications.clear();
 		persons.clear();
 		Parser pars = new Parser();
 		pars.getAllAuthors();
-		//showAllPublications();
-		showAllPersons();
+		System.out.println("Person Size: " + persons.size());
 		System.exit(0);
 	}
 

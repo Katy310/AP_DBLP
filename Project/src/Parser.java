@@ -63,7 +63,6 @@ public class Parser{
 					EndElement endElement = xmlEvent.asEndElement();
 					if(endElement.getName().getLocalPart().equals("www")){
 						Main.addPerson(person);
-						System.out.println(person.toString());
 					}
 				}
 			}
