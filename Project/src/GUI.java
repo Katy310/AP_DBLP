@@ -24,16 +24,15 @@ public class GUI {
 	private JTextField noPublications;
 	private int noOfPublications;
 
-	public void setk(int k)
-	{
-		noOfPublications = k;
-	}
-
-    public int getk()
+	public int getk()
 	{
 		return noOfPublications;
 	}
 
+	public void setk(int k)
+	{
+		noOfPublications = k;
+	}
 
 	public GUI ()
 	{
