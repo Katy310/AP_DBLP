@@ -4,15 +4,20 @@ public class Main {
 
 	private static ArrayList<Publication> publications = new ArrayList<Publication>();
 	private static ArrayList<Person> persons = new ArrayList<Person>();
+	private static String Sorter = "";
 	
 	public static void main(String[] args) {
-		new GUI();
 		publications.clear();
 		persons.clear();
 		Parser pars = new Parser();
-		pars.getAllAuthors();
-		System.out.println("Person Size: " + persons.size());
-		showAllPersons();
+		pars.Initialize();
+		Sorter = "Year";
+		if(Sorter.equals("Date") || Sorter.equals("Relevance")){
+			pars.Query1("title","Parllel",Sorter,0,0);
+		}
+		else{
+			pars.Query1("author","Sanjeev Saxena", Sorter, 1996, 0);
+		}
 		System.exit(0);
 	}
 

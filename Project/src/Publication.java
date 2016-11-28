@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class Publication implements Comparable<Publication>{
@@ -9,7 +10,7 @@ public class Publication implements Comparable<Publication>{
 	private String month;
 	private int year;
 	private HashMap<String,String> Attributes = new HashMap<String,String>();
-	
+	private static String RelevanceWord;
 	
 	@Override
 	public int compareTo(Publication o) {
@@ -100,12 +101,45 @@ public class Publication implements Comparable<Publication>{
 			obj += "\nAuthor : " + auth;
 		}
 		obj += "\nTitle : " + title;
+		obj += "\nYear : " + year;
 		for(String key:Attributes.keySet()){
 			obj += "\n" + key + " : " + Attributes.get(key);
 		}
 		obj += "\n";
 		return(obj);
 	}
+	
+	public boolean givenYear(int y){
+		return(year >= y);
+	}
+	
+	public boolean inBetweenYears(int y1, int y2){
+		return(y1 > year && year > y2);
+	}
 
+	public static void setRelevanceWord(String word){
+		RelevanceWord = word;
+	}
+	
+	public static Comparator<Publication> SortByRelevance = new Comparator<Publication>() {
+
+		public int compare(Publication pub1, Publication pub2) {
+			
+			int rel1 = 0, rel2 = 0;
+			String[] splited1 = pub1.getTitle().split(" ");
+			String[] splited2 = pub1.getTitle().split(" ");
+			for(String s: splited1){
+				if(s.contains(RelevanceWord)){
+					rel1++;
+				}
+			}
+			for(String s: splited2){
+				if(s.contains(RelevanceWord)){
+					rel2++;
+				}
+			}
+			return(rel1 - rel2);	
+		}	
+	};
 
 }

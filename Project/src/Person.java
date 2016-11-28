@@ -11,6 +11,9 @@ public class Person {
 		NoPubl = 0;
 	}
 	
+	public ArrayList<String> getNames(){
+		return names;
+	}
 	
 	public void setPrimName(String primName){
 		this.PrimName = primName;
@@ -50,6 +53,10 @@ public class Person {
 		}
 		obj += NoPubl + "\n";
 		return(obj);
+	}
+	
+	public void addnoPubl(int n){
+		NoPubl += n;
 	}
 	
 }
