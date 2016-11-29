@@ -29,14 +29,22 @@ public class GUI {
 	private JTextField rangeEnd;
 	private JButton search;
 	private JButton searchquery2;
+	private JButton searchquery3;
 	private JButton reset;
 	private JTextField noPublications;
+	private JTextField tillyear;
 	private JLabel error;
 	private JLabel error_Since;
 	private JFrame dialog = new JFrame();
 	private JTable table;
 	private JTable tablequery2;
 	private JButton next;
+	private JLabel result;
+	private JLabel outputLabel;
+	private JLabel exactLabel;
+	private JLabel outputLabel1;
+	private JLabel exactLabel1;
+	
 	
 	//Model Controller elements
 	private static Parser parser = new Parser();
@@ -83,7 +91,7 @@ public class GUI {
 		
 		boxLayout = new BoxLayout(mainLeftPanel, BoxLayout.Y_AXIS);
 		
-		String[] queries = { "Queries", "Query 1", "Query 2"};
+		String[] queries = { "Queries", "Query 1", "Query 2", "Query 3"};
 		queryList = new JComboBox<String>(queries);
 		queryList.setSelectedIndex(0);
 		mainLeftPanel.add(Box.createRigidArea(new Dimension(0,50)));
@@ -129,7 +137,7 @@ public class GUI {
 			
 		Box leftBox = Box.createVerticalBox();
 			
-		String[] queries = {"Queries", "Query 1", "Query 2"};
+		String[] queries = {"Queries", "Query 1", "Query 2","Query 3"};
 		queryList = new JComboBox<String>(queries);
 		queryList.setSelectedIndex(1);
 		leftBox.add(Box.createRigidArea(new Dimension(0,50)));
@@ -210,7 +218,7 @@ public class GUI {
 		leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 		
 		Box tinyBox6 = Box.createHorizontalBox();
-		error = new JLabel("");
+		error = new JLabel("Cool Down Katyayani");
 		tinyBox6.add(error);
 		leftBox.add(tinyBox6);
 
@@ -255,6 +263,7 @@ public class GUI {
 
 
 
+		result = new JLabel("No. of Publications: ");
 
 		table = new JTable(data,columnNames);
 		
@@ -263,6 +272,8 @@ public class GUI {
                                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		JScrollBar bar = scrollPane.getVerticalScrollBar();
 		bar.setPreferredSize(new Dimension(500, 0));
+		rightBox.add(result);
+		rightBox.add(Box.createRigidArea(new Dimension(5,0)));
 		rightBox.add(scrollPane);
 		
 		next = new JButton("Next");
@@ -333,7 +344,7 @@ public class GUI {
 
 
 
-
+		result = new JLabel("No. of Authors: ");
 		tablequery2 = new JTable(data,columnNames);
 		
 		JScrollPane scrollPane = new JScrollPane(tablequery2, 
@@ -341,6 +352,8 @@ public class GUI {
                                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		JScrollBar bar = scrollPane.getVerticalScrollBar();
 		bar.setPreferredSize(new Dimension(500, 0));
+		rightBox.add(result);
+		rightBox.add(Box.createRigidArea(new Dimension(5,0)));
 		rightBox.add(scrollPane);
 		
 		next = new JButton("Next");
@@ -385,9 +398,8 @@ public class GUI {
 		mainRightPanel.setMinimumSize(new Dimension(30,30));
 		mainRightPanel.setPreferredSize(new Dimension(400,600));
 
-
-
-
+		
+		
 		mainContent = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, mainLeftPanel, mainRightPanel);
 		mainContent.setResizeWeight(0.5);
 		mainContent.setOneTouchExpandable(true);
@@ -425,7 +437,7 @@ public class GUI {
 		
 		Box leftBox = Box.createVerticalBox();
 		
-		String[] queries = {"Queries", "Query 1", "Query 2"};
+		String[] queries = {"Queries", "Query 1", "Query 2", "Query 3"};
 		queryList = new JComboBox<String>(queries);
 		queryList.setSelectedIndex(2);
 		leftBox.add(Box.createRigidArea(new Dimension(0,50)));
@@ -470,36 +482,124 @@ public class GUI {
 		mainLeftPanel.add(leftBox);
 	}
 	
-	
+	public void query3LeftScreen(){
+		
+		mainLeftPanel = new JPanel();
+		mainLeftPanel.setMinimumSize(new Dimension(30,30));
+		mainLeftPanel.setPreferredSize(new Dimension(200,600));
+		mainLeftPanel.setVisible(true);
+		
+		panelHead = new JPanel(new BorderLayout());
+		labelHead = getLabel("DBLP Query Engine", SwingConstants.CENTER);
+		labelHead.setFont(new Font("Serif", Font.BOLD, 24));
+		panelHead.add(labelHead, BorderLayout.CENTER);
+		
+		Box leftBox = Box.createVerticalBox();
+		
+		String[] queries = {"Queries", "Query 1", "Query 2","Query 3"};
+		queryList = new JComboBox<String>(queries);
+		queryList.setSelectedIndex(3);
+		leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+		leftBox.add(queryList);
+		leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+		
+		queryList.addActionListener(new queryListener());
 
 
-	public void SinceYearPrompt(){
-		
-		JButton OK_SinceYear = new JButton();
-		error_Since = new JLabel("");
-		
-		dialog = new JFrame();
-		OK_SinceYear.setText("Enter");
-		OK_SinceYear.addActionListener(new OKSince());
+
+
+		Box tinyBox = Box.createHorizontalBox();
+		JLabel authorLabel = new JLabel("Author Name");
+		tinyBox.add(authorLabel);
+		tinyBox.add(Box.createRigidArea(new Dimension(5,0)));
+		noPublications = new JTextField(5);
+		tinyBox.add(noPublications);
+		leftBox.add(tinyBox);
+		leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+
+		Box tinyBox1 = Box.createHorizontalBox();
+		JLabel yearLabel = new JLabel("Till Year");
+		tinyBox1.add(yearLabel);
+		tinyBox1.add(Box.createRigidArea(new Dimension(5,0)));
+		tillyear = new JTextField(5);
+		tinyBox1.add(tillyear);
+		leftBox.add(tinyBox1);
+		leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+
+
 		Box tinyBox2 = Box.createHorizontalBox();
-		Box tinyBox = Box.createVerticalBox();
-		JLabel sinceLabel = new JLabel("Since Year");
-		tinyBox2.add(sinceLabel);
-		tinyBox2.add(Box.createRigidArea(new Dimension(20,0)));
-		sinceYear = new JTextField("YYYY",4);
-		YearTag = sinceYear.getText();
-		tinyBox2.add(sinceYear);
-		tinyBox.add(tinyBox2);
-		tinyBox.add(Box.createRigidArea(new Dimension(0,20)));
-		tinyBox.add(OK_SinceYear);
-		tinyBox.add(Box.createRigidArea(new Dimension(0,20)));
-		tinyBox.add(error_Since);
-		dialog.getContentPane().add(tinyBox);
-		dialog.getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
-		dialog.setPreferredSize(new Dimension(200,200));
-		dialog.setVisible(true);
-		
+		searchquery3 = new JButton("Search");
+		searchquery3.setForeground(Color.WHITE);
+		searchquery3.setBackground(Color.BLACK);
+		searchquery3.addActionListener(new Query3Listener());
+		tinyBox2.add(searchquery3);
+		tinyBox2.add(Box.createRigidArea(new Dimension(10,10)));
+		reset = new JButton("Reset");
+		reset.setForeground(Color.WHITE);
+		reset.setBackground(Color.RED);
+		reset.addActionListener(new resetListener());
+		tinyBox2.add(reset);
+		leftBox.add(tinyBox2);
+		leftBox.add(Box.createRigidArea(new Dimension(0,50)));
+
+
+
+
+		mainLeftPanel.add(leftBox);
 	}
+	
+	public void query3RightScreen(){
+		mainRightPanel = new JPanel();
+		mainRightPanel.setMinimumSize(new Dimension(30,30));
+		mainRightPanel.setPreferredSize(new Dimension(400,600));
+
+		Box rightBox = Box.createVerticalBox();
+		outputLabel = new JLabel("Output: ");
+		outputLabel1 = new JLabel("");
+		Box tinyBox = Box.createHorizontalBox();
+		tinyBox.add(outputLabel);
+		tinyBox.add(Box.createRigidArea(new Dimension(10,0)));
+		tinyBox.add(outputLabel1);
+		tinyBox.add(Box.createRigidArea(new Dimension(10,0)));
+		rightBox.add(tinyBox);
+		rightBox.add(Box.createRigidArea(new Dimension(0,10)));
+		
+		Box tinyBox1 = Box.createHorizontalBox();
+		exactLabel = new JLabel("Exact Value: ");
+		exactLabel1 = new JLabel("");
+		tinyBox1.add(exactLabel);
+		tinyBox1.add(Box.createRigidArea(new Dimension(10,0)));
+		tinyBox1.add(exactLabel1);
+		tinyBox1.add(Box.createRigidArea(new Dimension(10,0)));
+		rightBox.add(tinyBox1);
+		rightBox.add(Box.createRigidArea(new Dimension(0,10)));
+		
+		mainRightPanel.add(rightBox);
+
+
+		mainContent = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, mainLeftPanel, mainRightPanel);
+		mainContent.setResizeWeight(0.5);
+		mainContent.setOneTouchExpandable(true);
+		mainContent.setContinuousLayout(true);
+		mainContent.setDividerLocation(225 + mainContent.getInsets().left);
+
+
+
+
+		mainFrame = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelHead, mainContent);
+		mainFrame.setResizeWeight(0.5);
+		mainFrame.setOneTouchExpandable(true);
+		mainFrame.setContinuousLayout(true);
+		mainFrame.setDividerLocation(50 + mainFrame.getInsets().left);
+
+
+
+
+		frame.getContentPane().add(mainFrame);
+		frame.setSize(800,800);
+		frame.setVisible(true);
+	}
+	
 	class queryListener1 implements ActionListener
 	{
 		
@@ -511,14 +611,17 @@ public class GUI {
 //			String SortBy;
 			//parser.Query1(choice, tag, Sorter, y1, y2);
 			
+			choice = (String)searchList.getSelectedItem();
 			choice = choice.toLowerCase();
 			if(choice.equals("search by") || choice.equals("")){
-				error.setText("Invalid Choice of Query Bro!");
+				error = new JLabel("Invalid Choice of Query Bro!");
+//				error.setText("Invalid Choice of Query Bro!");
 				x = true;
 			}
 			else if(SortRelevanceChoice){
 				SortRelevanceChoice = false;
 				tag = tags.getText();
+				System.out.println(choice + " , " + tag + " , " + "Relevance");
 				parser.Query1(choice,tag,"Relevance",0,0);
 				if(choice.equals("author")){
 					Query1Result = parser.getQuery1aResult();
@@ -550,35 +653,19 @@ public class GUI {
 			else if(SinceYearChoice){
 				SinceYearChoice = false;
 				tag = tags.getText();
-				SinceYearPrompt();
+				
 			}
 
 
 				
 			else if(BwYearChoice){
-				BwYearChoice = false;
-				Box tinyBox3 = Box.createHorizontalBox();
-				JLabel rangeLabel = new JLabel("Custom Range");
-				tinyBox3.add(rangeLabel);
-				tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
-				rangeBegin = new JTextField("YYYY",3);
-				BtYearTag1 = rangeBegin.getText();
-				tinyBox3.add(rangeBegin);
-				tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
-				JLabel hyphen = new JLabel("-");
-				tinyBox3.add(hyphen);
-				tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
-				rangeEnd = new JTextField("YYYY",3);
-				BtYearTag2 = rangeEnd.getText();
-				tinyBox3.add(rangeEnd);
-				tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
-				//leftBox.add(tinyBox3);
-				//leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+				
 			}	
 			//display Query1 on table
-			if(x = false){
+			if(x == false){
 				query1LeftScreen();		
 				query1RightScreenWithTable();
+				result.setText("No. of Publications : " + Query1Result.size());
 				pageno = 0;
 				int limit = 0;
 				if(Query1Result.size() > 20){
@@ -602,6 +689,11 @@ public class GUI {
 				}
 				pageno = 1; 
 			}
+		
+		else{
+			query1LeftScreen();
+			query1RightScreenWithoutTable();
+		}
 		}
 	}
 	
@@ -625,12 +717,17 @@ public class GUI {
 				query1RightScreenWithoutTable();
 				
 			}
-			else
+			else if(query.equals("Query 2"))
 			{
 				mainFrame.setVisible(false);
 
-
 				query2LeftScreen();
+				query1RightScreenWithoutTable();
+			}
+			else
+			{
+				mainFrame.setVisible(false);
+				query3LeftScreen();
 				query1RightScreenWithoutTable();
 			}
 		}
@@ -644,6 +741,7 @@ public class GUI {
 			@SuppressWarnings("rawtypes")
 			JComboBox cb = (JComboBox)e.getSource();
 		    choice = (String)cb.getSelectedItem();
+		    System.out.println(choice);
 		}
 	}
 	
@@ -726,6 +824,7 @@ public class GUI {
 			pageno++;
 			int j=0, i;
 			int limit;
+			result.setText("No. of Publications : " + Query1Result.size());
 			if(Query1Result.size() >= pageno*20){
 				limit = pageno*20;
 			}
@@ -755,6 +854,8 @@ public class GUI {
 		public void actionPerformed(ActionEvent e){
 			mainFrame.setVisible(false);
 			homeScreen();
+			Query1Result.clear();
+			Query2Result.clear();
 		}
 	}
     
@@ -765,6 +866,7 @@ public class GUI {
     		query2RightScreenWithTable();
     		parser.Query2(Integer.parseInt(noPublications.getText()));
     		Query2Result = parser.getQuery2Result();
+    		result.setText("No. of Authors : " + Query2Result.size());
     		int i;
     		int limit;
     		if(Query2Result.size() >= 20){
@@ -786,6 +888,7 @@ public class GUI {
 		public void actionPerformed(ActionEvent e){
 			mainFrame.setVisible(false);
 			query2RightScreenWithTable();
+			result.setText("No. of Authors : " + Query2Result.size());
 			pageno++;
 			int i,limit;
 			if(Query2Result.size() >= 20*pageno){
@@ -794,11 +897,28 @@ public class GUI {
     		else{
     			limit = Query2Result.size();
     		}
+			int j = 0;
 			for ( i = (pageno-1)*20; i < limit; i++){
-				tablequery2.setValueAt(Query2Result.get(i).getPrimName(), i, 0);
+				tablequery2.setValueAt(Query2Result.get(i).getPrimName(), j, 0);
+				j++;
 			}
 		}
 	}
+    
+    class Query3Listener implements ActionListener
+    {
+    	public void actionPerformed(ActionEvent e){
+    		mainFrame.setVisible(false);
+    		query3RightScreen();
+//    		System.out.println(tillyear.getText());
+//    		System.out.println(noPublications.getText());
+    		int year = Integer.parseInt(tillyear.getText());
+    		String auth = noPublications.getText();
+    		parser.Query3(auth, year);
+    		exactLabel1.setText(Double.toString(parser.getExact()));
+    		outputLabel1.setText(Double.toString(parser.getOutput()));
+    	}
+    }
     
     
 	

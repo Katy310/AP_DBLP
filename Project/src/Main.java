@@ -7,11 +7,9 @@ public class Main {
 	private static String Sorter = "";
 	
 	public static void main(String[] args) {
-		publications.clear();
-		persons.clear();
 		Parser pars = new Parser();
 		pars.Initialize();
-		pars.Query2(50);
+		pars.Query3("Hans Ulrich Simon", 2015);
 		System.exit(0);
 	}
 

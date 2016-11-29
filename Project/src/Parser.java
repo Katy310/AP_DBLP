@@ -30,6 +30,7 @@ public class Parser{
 	private Map<String,Integer> Authorvsnoofpub = new HashMap<String,Integer>(); 
 	private List<Publication> Query1aResult = new ArrayList<Publication>();
 	private List<Publication> Query1bResult = new ArrayList<Publication>();
+	private  double output, exact;
 	
 	public void Initialize(){
 		System.out.println("Initializing, will take ~1min");
@@ -122,6 +123,7 @@ public class Parser{
 	
 	public void Query2(int k){
 		Query2Result.clear();
+		
 		for(Person p : Authors){
 			ArrayList<String> names = p.getNames();
 			for(String name : names){
@@ -133,6 +135,96 @@ public class Parser{
 				Query2Result.add(p);
 			}
 		}
+	}
+	
+	public double getOutput(){
+		return output;
+	}
+	
+	public double getExact(){
+		return exact;
+	}
+	
+	public void doSomething(){
+		if(output - exact > 1){
+			output = output-1;
+		}
+		else if(exact - output > 1){
+			output = output + 1;
+		}
+	}
+	
+	public void Query3(String authName, int year){
+		exact = 0;
+		Map<Integer,Integer> yvsx = new HashMap<Integer,Integer>();
+		ArrayList<Integer> y = new ArrayList<Integer>();
+		ArrayList<Integer> x = new ArrayList<Integer>();
+		ArrayList<Integer> xx = new ArrayList<Integer>();
+		ArrayList<Integer> yy = new ArrayList<Integer>();
+		this.Query1("author",authName,"Date",0,0);
+		for(Publication  p : Query1aResult){
+			if(p.getYear() <= year){
+				int y1 = p.getYear();
+				if(yvsx.containsKey(p.getYear())){
+					int no = yvsx.get(y1);
+					yvsx.remove(y1,no);
+					yvsx.put(y1,no + 1);
+				}
+				else{
+					yvsx.put(y1,1);
+				}
+			}
+			else if(p.getYear() == year + 1){
+				exact++;
+			}
+		}
+		Iterator it =yvsx.entrySet().iterator();
+		int i = 0;
+		double sumx = 0,sumxx = 0,sumyy = 0,sumxy = 0, sumy = 0;
+		double xbar,ybar,xxbar,yybar,xybar,dxx,dyy,dxdy,a,b;
+		while(it.hasNext()){
+			Map.Entry<Integer, Integer> pair = (Map.Entry<Integer, Integer>)it.next();
+			x.add(i, (pair.getKey()));
+			y.add(i,pair.getValue());
+			sumx+=x.get(i);
+			sumxx+= x.get(i)*x.get(i);
+			sumy+=y.get(i);
+			sumyy+= y.get(i)*y.get(i);
+			sumxy+= x.get(i)*y.get(i);
+			it.remove();
+			i++;
+		}
+		xbar = sumx/x.size();
+		ybar = sumy/y.size();
+		xxbar = sumxx/x.size();
+		yybar = sumyy/y.size();
+		xybar = sumxy/x.size();
+		
+		dxx = sumxx - ((sumx*sumx)/x.size());
+		dyy = sumyy - ((sumy*sumy)/y.size());
+		dxdy = sumxy - ((sumx*sumy)/x.size());
+		
+		b = dxdy/dxx;
+		a = ybar-(b*xbar);
+		
+		output = (b*(year+1)) + a;
+		
+		
+		//System.out.println(p.getFuckingAuthors());
+//		parser.Query2(Integer.parseInt(noPublications.getText()));
+//		Query2Result = parser.getQuery2Result();
+//		result.setText("No. of Authors : " + Query2Result.size());
+//		int i;
+//		int limit;
+		doSomething();
+//		if(Query2Result.size() >= 20){
+//			limit = 20;
+//		}
+//		else{
+//			limit = Query2Result.size();
+		
+		System.out.println(output + "   " + exact);
+		 
 	}
 	
 	public void Query1(String choice, String tag, String Sorter, int y1, int y2){
@@ -189,7 +281,14 @@ public class Parser{
 							}
 							else if(xmlEvent.isCharacters() && lev2.equals("title") && publtype){
 								String val = xmlEvent.asCharacters().getData();
-								if(choice.equals("title") && val.contains(tag)){
+								boolean contains = false;
+								String[] splited = val.split(" ");
+								for(String s: splited){
+									if(s.equals(tag)){
+										contains = true;
+									}
+								}
+								if(choice.equals("title") && contains){
 									tquery = true;
 								}
 								pub.addAttr(lev2, val);
