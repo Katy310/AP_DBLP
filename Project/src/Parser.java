@@ -15,7 +15,9 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.stream.events.Attribute;
 
-
+/** Parser class. 
+     *  Class used to parse dblp.xml and handle all queries
+     */
 public class Parser{
 	
 	private String file = "/Users/Sagar/Desktop/dblp.xml";
@@ -32,6 +34,9 @@ public class Parser{
 	private List<Publication> Query1bResult = new ArrayList<Publication>();
 	private  double output, exact;
 	
+	/** Initialize method. 
+     *  Initializes query handling
+     */
 	public void Initialize(){
 		System.out.println("Initializing, will take ~1min");
 		boolean www = false;
@@ -105,22 +110,37 @@ public class Parser{
 		System.out.println(Authorvsnoofpub.get("Carles Riba Romeva"));
 	}
 	
+	/** getAuthors method. 
+     *  Method used to return all authors
+     */
 	public List<Person> getAuthors(){
 		return Authors;
 	}
 	
+	/** getQueryResult method. 
+     *  Method used to return query 1 results
+     */
 	public List<Publication> getQuery1aResult(){
 		return Query1aResult;
 	}
 	
+	/** getQueryResult method. 
+     *  Method used to return query 1 results
+     */
 	public List<Publication> getQuery1bResult(){
 		return Query1bResult;
 	}
 	
+	/** getQueryResult method. 
+     *  Method used to return query 2 results
+     */
 	public List<Person> getQuery2Result(){
 		return Query2Result;
 	}
 	
+	/** getQuery2 constructor. 
+     *  Constructor used to handle query 2
+     */
 	public void Query2(int k){
 		Query2Result.clear();
 		
@@ -137,10 +157,16 @@ public class Parser{
 		}
 	}
 	
+	/** getOutput method. 
+     *  Method used to return output
+     */
 	public double getOutput(){
 		return output;
 	}
 	
+	/** getExact method. 
+     *  Method used to return exact value
+     */
 	public double getExact(){
 		return exact;
 	}
@@ -154,6 +180,9 @@ public class Parser{
 		}
 	}
 	
+	/** Query3 constructor 
+     *  Constructor to initialize query 3
+     */
 	public void Query3(String authName, int year){
 		exact = 0;
 		Map<Integer,Integer> yvsx = new HashMap<Integer,Integer>();
