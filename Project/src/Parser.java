@@ -345,7 +345,7 @@ public class Parser{
 				}
 				Query1aResult = temp;
 			}
-			System.out.println(Query1aResult.size());
+			//System.out.println(Query1aResult.size());
 			
 		}
 		else{
@@ -372,7 +372,7 @@ public class Parser{
 				}
 				Query1bResult = temp;
 			}
-			System.out.println(Query1bResult.size());
+			//System.out.println(Query1bResult.size());
 //			for(Publication p : Query1bResult){
 //				System.out.println(p);
 //			}
