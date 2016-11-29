@@ -11,13 +11,7 @@ public class Main {
 		persons.clear();
 		Parser pars = new Parser();
 		pars.Initialize();
-		Sorter = "Year";
-		if(Sorter.equals("Date") || Sorter.equals("Relevance")){
-			pars.Query1("title","Parllel",Sorter,0,0);
-		}
-		else{
-			pars.Query1("author","Sanjeev Saxena", Sorter, 1996, 0);
-		}
+		pars.Query2(50);
 		System.exit(0);
 	}
 

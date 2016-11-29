@@ -32,6 +32,7 @@ public class Parser{
 	private List<Publication> Query1bResult = new ArrayList<Publication>();
 	
 	public void Initialize(){
+		System.out.println("Initializing, will take ~1min");
 		boolean www = false;
 		try{
 			XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(new FileInputStream(file));     // XML Event Reader
@@ -99,19 +100,29 @@ public class Parser{
 		System.out.println("Size : " + Authors.size());
 		System.out.println("All Authors Saved Successfully! :D");
 		System.out.println("HashMap Created");
+		System.out.println(Authorvsnoofpub.size());
+		System.out.println(Authorvsnoofpub.get("Carles Riba Romeva"));
 	}
 	
 	public List<Person> getAuthors(){
 		return Authors;
 	}
 	
+	public List<Publication> getQuery1aResult(){
+		return Query1aResult;
+	}
 	
+	public List<Publication> getQuery1bResult(){
+		return Query1bResult;
+	}
+	
+	public List<Person> getQuery2Result(){
+		return Query2Result;
+	}
 	
 	public void Query2(int k){
+		Query2Result.clear();
 		for(Person p : Authors){
-			if(Authorvsnoofpub.containsKey(p.getPrimName())){
-				p.addnoPubl(Authorvsnoofpub.get(p.getPrimName()));
-			}
 			ArrayList<String> names = p.getNames();
 			for(String name : names){
 				if(Authorvsnoofpub.containsKey(name)){
@@ -122,7 +133,6 @@ public class Parser{
 				Query2Result.add(p);
 			}
 		}
-		System.out.println(Query2Result.size());
 	}
 	
 	public void Query1(String choice, String tag, String Sorter, int y1, int y2){
@@ -218,7 +228,7 @@ public class Parser{
 				Collections.sort(Query1aResult);
 			}
 			else if(Sorter.equals("Relevance")){
-				Collections.sort(Query1aResult,Publication.SortByRelevance);
+				Collections.sort(Query1aResult,Publication.SortByRelevanceAuthor);
 			}
 			else if(Sorter.equals("Year")){
 				for(Publication p : Query1aResult){
@@ -236,10 +246,6 @@ public class Parser{
 				}
 				Query1aResult = temp;
 			}
-			System.out.println(Query1aResult.size());
-			for(Publication p : Query1aResult){
-				System.out.println(p);
-			}
 		}
 		else{
 			List<Publication> temp = new ArrayList<Publication>();
@@ -247,7 +253,7 @@ public class Parser{
 				Collections.sort(Query1bResult);
 			}
 			else if(Sorter.equals("Relevance")){
-				Collections.sort(Query1bResult,Publication.SortByRelevance);
+				Collections.sort(Query1bResult,Publication.SortByRelevanceTitle);
 			}
 			else if(Sorter.equals("Year")){
 				for(Publication p : Query1bResult){
@@ -266,9 +272,9 @@ public class Parser{
 				Query1bResult = temp;
 			}
 			System.out.println(Query1bResult.size());
-			for(Publication p : Query1bResult){
-				System.out.println(p);
-			}
+//			for(Publication p : Query1bResult){
+//				System.out.println(p);
+//			}
 		}
 		
 	}

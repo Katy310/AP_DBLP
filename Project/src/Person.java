@@ -27,9 +27,7 @@ public class Person {
 		if(names.size() == 0 && PrimName.equals("")){
 			PrimName = name;
 		}
-		else{
-			names.add(name);
-		}
+		names.add(name);
 	}
 	
 	public String getPrimName(){

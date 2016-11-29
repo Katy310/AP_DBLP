@@ -48,6 +48,54 @@ public class Publication implements Comparable<Publication>{
 		authors.add(auth);
 	}
 	
+	public String getFuckingAuthors(){
+		String obj = "";
+		for(String a : authors){
+			obj += a;
+			obj += "\n";
+		}
+		return(obj);
+	}
+	
+	public String getURL(){
+		if(Attributes.containsKey("url")){
+			return Attributes.get("url");
+		}
+		else{
+			return("");
+		}
+	}
+	
+	public String getPages(){
+		if(Attributes.containsKey("pages")){
+			return Attributes.get("pages");
+		}
+		else{
+			return("");
+		}
+	}
+	
+	public String getVolume(){
+		if(Attributes.containsKey("volume")){
+			return Attributes.get("volume");
+		}
+		else{
+			return("");
+		}
+	}
+	
+	public String getJournalBook(){
+		if(Attributes.containsKey("journal")){
+			return Attributes.get("journal");
+		}
+		else if(Attributes.containsKey("booktitle")){
+			return Attributes.get("booktitle");
+		}
+		else{
+			return ("");
+		}
+	}
+	
 	public void addAttr(String attr,String value){
 		if(attr.equals("author")){
 			this.addAuthor(value);
@@ -121,7 +169,11 @@ public class Publication implements Comparable<Publication>{
 		RelevanceWord = word;
 	}
 	
-	public static Comparator<Publication> SortByRelevance = new Comparator<Publication>() {
+	public ArrayList<String> getAuthors(){
+		return authors;
+	}
+	
+	public static Comparator<Publication> SortByRelevanceTitle = new Comparator<Publication>() {
 
 		public int compare(Publication pub1, Publication pub2) {
 			
@@ -134,6 +186,25 @@ public class Publication implements Comparable<Publication>{
 				}
 			}
 			for(String s: splited2){
+				if(s.contains(RelevanceWord)){
+					rel2++;
+				}
+			}
+			return(rel1 - rel2);	
+		}	
+	};
+	
+	public static Comparator<Publication> SortByRelevanceAuthor = new Comparator<Publication>() {
+
+		public int compare(Publication pub1, Publication pub2) {
+			
+			int rel1 = 0, rel2 = 0;
+			for(String s: pub1.getAuthors()){
+				if(s.contains(RelevanceWord)){
+					rel1++;
+				}
+			}
+			for(String s: pub2.getAuthors()){
 				if(s.contains(RelevanceWord)){
 					rel2++;
 				}
