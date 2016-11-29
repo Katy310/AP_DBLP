@@ -162,9 +162,31 @@ public class GUI {
 		tag = tags.getText();
 		leftBox.add(tinyBox);
 		leftBox.add(Box.createRigidArea(new Dimension(0,10)));
+		
+		Box tinyBox2 = Box.createHorizontalBox();
+		JLabel sinceLabel = new JLabel("Since Year");
+		tinyBox2.add(sinceLabel);
+		tinyBox2.add(Box.createRigidArea(new Dimension(20,0)));
+		sinceYear = new JTextField("YYYY",4);
+		tinyBox2.add(sinceYear);
+		leftBox.add(tinyBox2);
+		leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 
-
-
+		Box tinyBox3 = Box.createHorizontalBox();
+		JLabel rangeLabel = new JLabel("Custom Range");
+		tinyBox3.add(rangeLabel);
+		tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
+		rangeBegin = new JTextField("YYYY",3);
+		tinyBox3.add(rangeBegin);
+		tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
+		JLabel hyphen = new JLabel("-");
+		tinyBox3.add(hyphen);
+		tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
+		rangeEnd = new JTextField("YYYY",3);
+		tinyBox3.add(rangeEnd);
+		tinyBox3.add(Box.createRigidArea(new Dimension(5,0)));
+		leftBox.add(tinyBox3);
+		leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 
 		Box tinyBox4 = Box.createVerticalBox();
 		JPanel panel1 = new JPanel();
@@ -198,9 +220,6 @@ public class GUI {
 		tinyBox4.add(panel4);
 		leftBox.add(tinyBox4);
 		leftBox.add(Box.createRigidArea(new Dimension(0,10)));
-
-
-
 
 		Box tinyBox5 = Box.createHorizontalBox();
 		search = new JButton("Search");
@@ -629,10 +648,6 @@ public class GUI {
 				else if(choice.equals("title")){
 					Query1Result = parser.getQuery1bResult();
 				}
-//				System.out.println(Query1Result.size());
-//				for(Publication p: Query1Result){
-//					System.out.println(p);
-//				}
 			}
 			else if(SortDateChoice){
 				SortDateChoice = false;
@@ -645,24 +660,37 @@ public class GUI {
 				else if(choice.equals("title")){
 					Query1Result = parser.getQuery1bResult();
 				}
-//				System.out.println(Query1Result.size());
-//				for(Publication p: Query1Result){
-//					System.out.println(p);
-//				}
 			}
 			else if(SinceYearChoice){
 				SinceYearChoice = false;
 				tag = tags.getText();
-				
+				int y1 = Integer.parseInt(sinceYear.getText());
+				parser.Query1(choice, tag,"Year", y1, 0);
+				if(choice.equals("author")){
+					Query1Result = parser.getQuery1aResult();
+				}
+				else if(choice.equals("title")){
+					Query1Result = parser.getQuery1bResult();
+				}
 			}
-
-
-				
 			else if(BwYearChoice){
-				
+				BwYearChoice = false;
+				tag = tags.getText();
+				int y1 = Integer.parseInt(rangeBegin.getText());
+				int y2 = Integer.parseInt(rangeEnd.getText());
+				System.out.println(choice + " , " + tag + " , " + "Date" + y1 + y2 + "mogm");
+				parser.Query1(choice, tag, "BetweenYear", y1, y2);
+				if(choice.equals("author")){
+					Query1Result = parser.getQuery1aResult();
+				}
+				else if(choice.equals("title")){
+					Query1Result = parser.getQuery1bResult();
+				}
 			}	
+			
 			//display Query1 on table
 			if(x == false){
+				
 				query1LeftScreen();		
 				query1RightScreenWithTable();
 				result.setText("No. of Publications : " + Query1Result.size());

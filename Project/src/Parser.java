@@ -345,6 +345,8 @@ public class Parser{
 				}
 				Query1aResult = temp;
 			}
+			System.out.println(Query1aResult.size());
+			
 		}
 		else{
 			List<Publication> temp = new ArrayList<Publication>();

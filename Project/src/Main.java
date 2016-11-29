@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		Parser pars = new Parser();
 		pars.Initialize();
-		pars.Query3("Hans Ulrich Simon", 2015);
+		pars.Query1("author","Hans Ulrich Simon","BetweenYear",1996, 2010);
 		System.exit(0);
 	}
 

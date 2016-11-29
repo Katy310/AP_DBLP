@@ -162,7 +162,7 @@ public class Publication implements Comparable<Publication>{
 	}
 	
 	public boolean inBetweenYears(int y1, int y2){
-		return(y1 > year && year > y2);
+		return(y1 >= year && year >= y2);
 	}
 
 	public static void setRelevanceWord(String word){
