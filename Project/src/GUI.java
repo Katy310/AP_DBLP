@@ -51,11 +51,10 @@ public class GUI {
 	private List<Publication> Query1Result = new ArrayList<Publication>();
 	private List<Person> Query2Result = new ArrayList<Person>();
 	
-	//Basic neccesities
+	//Basic necessities
 	private String choice = "";
 	private String tag;
 	private String YearTag;
-	private String BtYearTag1, BtYearTag2;
 	private boolean SortRelevanceChoice = false;
 	private boolean SortDateChoice = false;
 	private boolean SinceYearChoice = false;
@@ -236,10 +235,10 @@ public class GUI {
 		leftBox.add(tinyBox5);
 		leftBox.add(Box.createRigidArea(new Dimension(0,10)));
 		
-		Box tinyBox6 = Box.createHorizontalBox();
-		error = new JLabel("Cool Down Katyayani");
-		tinyBox6.add(error);
-		leftBox.add(tinyBox6);
+//		Box tinyBox6 = Box.createHorizontalBox();
+//		error = new JLabel("Cool Down Katyayani");
+//		tinyBox6.add(error);
+//		leftBox.add(tinyBox6);
 
 
 		mainLeftPanel.add(leftBox);
@@ -628,13 +627,19 @@ public class GUI {
 			boolean x = false;
 			mainFrame.setVisible(false);
 //			String SortBy;
+			
 			//parser.Query1(choice, tag, Sorter, y1, y2);
 			
 			choice = (String)searchList.getSelectedItem();
 			choice = choice.toLowerCase();
+			tag = tags.getText();
 			if(choice.equals("search by") || choice.equals("")){
-				error = new JLabel("Invalid Choice of Query Bro!");
+				//error = new JLabel("Invalid Choice of Query Bro!");
 //				error.setText("Invalid Choice of Query Bro!");
+				JOptionPane.showMessageDialog(null, "Selection invalid", "Error", JOptionPane.ERROR_MESSAGE);
+				x = true;
+			}else if(tag.equals("")){
+				JOptionPane.showMessageDialog(null, "Please Enter Valid Tags", "Error", JOptionPane.ERROR_MESSAGE);
 				x = true;
 			}
 			else if(SortRelevanceChoice){
@@ -664,27 +669,44 @@ public class GUI {
 			else if(SinceYearChoice){
 				SinceYearChoice = false;
 				tag = tags.getText();
-				int y1 = Integer.parseInt(sinceYear.getText());
-				parser.Query1(choice, tag,"Year", y1, 0);
-				if(choice.equals("author")){
-					Query1Result = parser.getQuery1aResult();
+				String s = sinceYear.getText();
+				if(!isInteger(s)){
+					System.out.println("Error");
+					JOptionPane.showMessageDialog(null, "Enter Integer Year", "Error", JOptionPane.ERROR_MESSAGE);
+					x = true;
+					System.out.println(x);
 				}
-				else if(choice.equals("title")){
-					Query1Result = parser.getQuery1bResult();
+				else{
+					int y1 = Integer.parseInt(sinceYear.getText());
+					parser.Query1(choice, tag,"Year", y1, 0);
+					if(choice.equals("author")){
+						Query1Result = parser.getQuery1aResult();
+					}
+					else if(choice.equals("title")){
+						Query1Result = parser.getQuery1bResult();
+					}
 				}
 			}
 			else if(BwYearChoice){
 				BwYearChoice = false;
 				tag = tags.getText();
-				int y1 = Integer.parseInt(rangeBegin.getText());
-				int y2 = Integer.parseInt(rangeEnd.getText());
-				System.out.println(choice + " , " + tag + " , " + "Date" + y1 + y2 + "mogm");
-				parser.Query1(choice, tag, "BetweenYear", y1, y2);
-				if(choice.equals("author")){
-					Query1Result = parser.getQuery1aResult();
+				String s1 = rangeBegin.getText();
+				String s2 = rangeEnd.getText();
+				if(!isInteger(s1) || !isInteger(s2)){
+					JOptionPane.showMessageDialog(null, "Enter Integer Year", "Error", JOptionPane.ERROR_MESSAGE);
+					x = true;
 				}
-				else if(choice.equals("title")){
-					Query1Result = parser.getQuery1bResult();
+				else{
+					int y1 = Integer.parseInt(rangeBegin.getText());
+					int y2 = Integer.parseInt(rangeEnd.getText());
+					System.out.println(choice + " , " + tag + " , " + "Date" + y1 + y2 + "mogm");
+					parser.Query1(choice, tag, "BetweenYear", y1, y2);
+					if(choice.equals("author")){
+						Query1Result = parser.getQuery1aResult();
+					}
+					else if(choice.equals("title")){
+						Query1Result = parser.getQuery1bResult();
+					}
 				}
 			}	
 			
@@ -892,22 +914,30 @@ public class GUI {
     	public void actionPerformed(ActionEvent e){
     		mainFrame.setVisible(false);
     		query2RightScreenWithTable();
-    		parser.Query2(Integer.parseInt(noPublications.getText()));
-    		Query2Result = parser.getQuery2Result();
-    		result.setText("No. of Authors : " + Query2Result.size());
-    		int i;
-    		int limit;
-    		if(Query2Result.size() >= 20){
-    			limit = 20;
+    		String s = noPublications.getText();
+    		if(isInteger(s)){
+    			parser.Query2(Integer.parseInt(noPublications.getText()));
+    			Query2Result = parser.getQuery2Result();
+    			result.setText("No. of Authors : " + Query2Result.size());
+    			int i;
+    			int limit;
+    			if(Query2Result.size() >= 20){
+    				limit = 20;
+    			}
+    			else{
+    				limit = Query2Result.size();
+    			}
+    			pageno = 0;
+    			for(i = 0;i < limit; i++){
+    				tablequery2.setValueAt(Query2Result.get(i).getPrimName(), i, 0);
+    			}
+    			pageno = 1;
     		}
     		else{
-    			limit = Query2Result.size();
+    			JOptionPane.showMessageDialog(null, "Enter Integer Value", "Error", JOptionPane.ERROR_MESSAGE);
+    			mainFrame.setVisible(false);
+        		query1RightScreenWithoutTable();
     		}
-    		pageno = 0;
-    		for(i = 0;i < limit; i++){
-    			tablequery2.setValueAt(Query2Result.get(i).getPrimName(), i, 0);
-    		}
-    		pageno = 1;
     	}
     }
     
@@ -940,11 +970,17 @@ public class GUI {
     		query3RightScreen();
 //    		System.out.println(tillyear.getText());
 //    		System.out.println(noPublications.getText());
-    		int year = Integer.parseInt(tillyear.getText());
     		String auth = noPublications.getText();
-    		parser.Query3(auth, year);
-    		exactLabel1.setText(Double.toString(parser.getExact()));
-    		outputLabel1.setText(Double.toString(parser.getOutput()));
+    		String s = tillyear.getText();
+    		if(isInteger(s) && !auth.equals("")){
+    			int year = Integer.parseInt(tillyear.getText());
+    			parser.Query3(auth, year);
+    			exactLabel1.setText(Double.toString(parser.getExact()));
+    			outputLabel1.setText(Double.toString(parser.getOutput()));
+    		}
+    		else{
+    			JOptionPane.showMessageDialog(null, "Unidentified Values", "Error", JOptionPane.ERROR_MESSAGE);
+    		}
     	}
     }
     
