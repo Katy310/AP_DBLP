@@ -918,7 +918,7 @@ public class GUI {
     		if(isInteger(s)){
     			parser.Query2(Integer.parseInt(noPublications.getText()));
     			Query2Result = parser.getQuery2Result();
-    			result.setText("No. of Authors : " + Query2Result.size());
+    			result.setText("No. of Authors : " + Query2Result.size()/100);
     			int i;
     			int limit;
     			if(Query2Result.size() >= 20){
