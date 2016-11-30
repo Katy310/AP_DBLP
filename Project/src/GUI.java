@@ -946,7 +946,7 @@ public class GUI {
 		public void actionPerformed(ActionEvent e){
 			mainFrame.setVisible(false);
 			query2RightScreenWithTable();
-			result.setText("No. of Authors : " + Query2Result.size());
+			result.setText("No. of Authors : " + Query2Result.size()/100);
 			pageno++;
 			int i,limit;
 			if(Query2Result.size() >= 20*pageno){
